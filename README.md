@@ -7,7 +7,7 @@ Voice capture and recognize with Yandex Speech API. (типа крутой те�
 2. Компилируем
  * Открываем командную строку разработчика
  * cd [путь до папки с исходниками]\winbuild
- * nmake /f Makefile.vc mode=dll
+ * '''nmake /f Makefile.vc mode=dll'''
  * Ждём
 3. Закидываем в include directory [путь до папки с исходниками curl]\builds\libcurl-vc-x86-release-dll-ipv6-sspi-winssl\include
 4. Закидываем в library path [путь до папки с исходниками curl]\builds\libcurl-vc-x86-release-dll-ipv6-sspi-winssl\lib
