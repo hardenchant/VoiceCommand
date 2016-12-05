@@ -63,4 +63,7 @@ void AddAction::addEditAction() {
 
 AddAction::~AddAction()
 {
+    if(commands != nullptr)
+        delete commands;
+
 }

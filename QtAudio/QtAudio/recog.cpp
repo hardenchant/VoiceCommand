@@ -52,7 +52,7 @@ std::string mr::recognize(const std::string path) {
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &mr::write_response_data);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
 
-		CURLcode code = curl_easy_perform(curl);
+		CURLcode code = curl_easy_perform(curl); //где ты юзаешь code?
 		
 		curl_free(headers);
 		curl_easy_cleanup(curl);
