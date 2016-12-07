@@ -48,7 +48,7 @@ void QtAudio::onPushButton_recognize() {
 				if (it_vc == it_c_vc) {	
 					ui.textEdit->setText(it_c.command().data());
 					QProcess* myproc = new QProcess(this);
-					myproc->start(it_c.command().data());
+					myproc->startDetached(it_c.command().data());
 				}
 			}
 		}
@@ -63,7 +63,7 @@ void QtAudio::stopAndRecognize() {
 
 // SOUND FORMAT AND PATH
 void QtAudio::set_audio_config() {
-	audioFilePath = QApplication::applicationDirPath() + "/speech.wav";
+
 	audioRecorder = new QAudioRecorder(this);
 
 	audioSettings.setCodec("audio/PCM");
@@ -92,9 +92,12 @@ void QtAudio::setInterfaceAndConnects() {
 
 // FILE ENCODING IS UTF8 (WITHOUT BOM)
 void QtAudio::loadFileCfg() {
-	QString qs = QApplication::applicationDirPath() + "/data.ini";
-	ifstream file(qs.toStdString());
+
+	ifstream file(settingsFilePath.toStdString());
 	if (!file) {
+		QMessageBox q;
+		q.setText("\"data.ini\" file not founded ");
+		q.exec();
 		return;
 	}
 	string name, path, words;
@@ -123,4 +126,21 @@ void QtAudio::showDebugOptions(int check) {
 		ui.button_recognize->hide();
 		ui.label->hide();
 	}
+}
+
+QtAudio::~QtAudio() {
+	ofstream file(settingsFilePath.toStdString());	//save commands
+	if (file) {
+		file.clear();
+		for (auto i : commands) {
+			file << i.getName() << endl;
+			file << i.getPath() << endl;
+			for (auto j : i.getWords()) {
+				file << j << ";";
+			}
+			file << endl;
+		}
+		file.close();
+	}
+	remove(audioFilePath.toStdString().data());	//remove temp audio file
 }

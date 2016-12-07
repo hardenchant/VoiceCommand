@@ -4,7 +4,6 @@
 #include <qstringlistmodel.h>
 #include <qtableview.h>
 #include <qmessagebox.h>
-
 #include <vector>
 
 #include "ui_AddAction.h"

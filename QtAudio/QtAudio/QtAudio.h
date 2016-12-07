@@ -15,6 +15,8 @@
 
 #include <string>
 #include <fstream>
+#include <stdio.h>
+
 
 #include "recog.h"
 #include "AddAction.h"
@@ -26,15 +28,18 @@ class QtAudio : public QMainWindow
 
 public:
     QtAudio(QWidget *parent = Q_NULLPTR);
+	~QtAudio();
 private:
     Ui::QtAudioClass ui;
 	AddAction addact_wnd;
 	
 	QAudioRecorder* audioRecorder;
 	QAudioEncoderSettings audioSettings;
-	QString audioFilePath;
 	
 	std::vector<VoiceAction> commands;
+
+	const QString settingsFilePath = QApplication::applicationDirPath() + "/data.ini";
+	const QString audioFilePath = QApplication::applicationDirPath() + "/speech.wav";
 
 public slots:
 	void onPushButton_startRecord();
