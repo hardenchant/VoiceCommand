@@ -31,7 +31,6 @@ private:
 	AddAction addact_wnd;
 	
 	QAudioRecorder* audioRecorder;
-	QMediaPlayer* mPlayer;
 	QAudioEncoderSettings audioSettings;
 	QString audioFilePath;
 	
