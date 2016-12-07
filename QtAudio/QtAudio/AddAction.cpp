@@ -1,11 +1,10 @@
 #include "AddAction.h"
-#include <iostream>
 
 AddAction::AddAction(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	this->setCentralWidget(ui.verticalLayoutWidget);
+	this->setCentralWidget(ui.gridLayoutWidget);
 	ui.button_add->setDisabled(true);
 }
 
@@ -59,6 +58,17 @@ void AddAction::addEditAction() {
 		}
 	}
 	updateList(commands);
+}
+
+void AddAction::getPathDial() {
+	QFileDialog qfd(this);
+	qfd.setFileMode(QFileDialog::ExistingFile);
+	qfd.setAcceptMode(QFileDialog::AcceptOpen);
+	if (qfd.exec()) {
+		/*QDir path(qfd.selectedFiles()[0]);
+		path.toNativeSeparators(qfd.selectedFiles()[0])*/
+		ui.lineEdit_path->setText(QDir::toNativeSeparators(qfd.selectedFiles()[0]));
+	}
 }
 
 AddAction::~AddAction()

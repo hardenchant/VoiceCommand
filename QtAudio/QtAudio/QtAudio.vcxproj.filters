@@ -85,6 +85,9 @@
     <CustomBuild Include="AddAction.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="AddAction.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_QtAudio.h">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="VoiceAction.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_AddAction.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

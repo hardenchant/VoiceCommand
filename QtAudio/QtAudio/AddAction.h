@@ -4,6 +4,8 @@
 #include <qstringlistmodel.h>
 #include <qtableview.h>
 #include <qmessagebox.h>
+#include <qfiledialog.h>
+
 #include <vector>
 
 #include "ui_AddAction.h"
@@ -24,4 +26,5 @@ public slots:
 	void updateList(std::vector<VoiceAction>*);
 	void chooseCom(QModelIndex);
 	void addEditAction();
+	void getPathDial();
 };
