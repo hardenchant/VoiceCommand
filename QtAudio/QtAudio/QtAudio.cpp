@@ -8,6 +8,14 @@ QtAudio::QtAudio(QWidget *parent)
 	setInterfaceAndConnects();
 	set_audio_config();
 	loadFileCfg();
+
+	press = 0;
+	RegisterHotKey((HWND)QMainWindow::winId(),   // set window handle
+		100,                         // set hotkey handle
+		MOD_ALT,         // se mods and key
+		'Z');
+
+	
 }
 
 void QtAudio::onPushButton_startRecord() {
@@ -81,13 +89,16 @@ void QtAudio::setInterfaceAndConnects() {
 	ui.button_stop->hide();
 	ui.button_recognize->hide();
 	ui.label->hide();
+
 	addact_wnd.setWindowModality(Qt::ApplicationModal);
+
 	auto menu_settings = ui.menuBar->addMenu("Settings");
 	auto action_addaction = menu_settings->addAction("Add voice action");
-	connect(action_addaction, SIGNAL(triggered()), &addact_wnd, SLOT(show()));
 
+	connect(action_addaction, SIGNAL(triggered()), &addact_wnd, SLOT(show()));
 	connect(this, SIGNAL(sendCommands(std::vector<VoiceAction>*)),
 		&addact_wnd, SLOT(updateList(std::vector<VoiceAction>*)));
+	connect(this, &QtAudio::MyPressedKey, this, &QtAudio::HotSlot);
 }
 
 // FILE ENCODING IS UTF8 (WITHOUT BOM)
@@ -143,4 +154,36 @@ QtAudio::~QtAudio() {
 		file.close();
 	}
 	remove(audioFilePath.toStdString().data());	//remove temp audio file
+}
+
+void QtAudio::HotSlot() {
+	if (press) {
+		press = 0;
+		stopAndRecognize();
+	}
+	else
+	{
+		press = 1;
+		onPushButton_startRecord();
+	}
+}
+
+
+bool QtAudio::nativeEvent(const QByteArray &eventType, void *message, long *result)
+{
+	Q_UNUSED(eventType)
+		Q_UNUSED(result)
+		MSG* msg = reinterpret_cast<MSG*>(message);
+
+	if (msg->message == WM_HOTKEY) {
+		// check hotkey
+		if (msg->wParam == 100) {
+			// actions
+			
+			emit MyPressedKey();
+
+			return true;
+		}
+	}
+	return false;
 }

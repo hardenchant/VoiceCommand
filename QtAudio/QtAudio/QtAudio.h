@@ -41,18 +41,26 @@ private:
 	const QString settingsFilePath = QApplication::applicationDirPath() + "/data.ini";
 	const QString audioFilePath = QApplication::applicationDirPath() + "/speech.wav";
 
+	bool press;
+
 public slots:
 	void onPushButton_startRecord();
 	void onPushButton_stopRecord();
 	void onPushButton_recognize();
 	void stopAndRecognize();
 	void showDebugOptions(int check);
+	void HotSlot();
 private:
 	size_t write_response_data(char *ptr, size_t size, size_t nmemb, void *userdata);
 	size_t read_request_data(char *ptr, size_t size, size_t nmemb, void *userdata);
 	void set_audio_config();
 	void loadFileCfg();
 	void setInterfaceAndConnects();
+
+protected:
+	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+
 signals:
 	void sendCommands(std::vector<VoiceAction>*);
+	void MyPressedKey();
 };
