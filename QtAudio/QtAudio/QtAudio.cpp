@@ -14,8 +14,6 @@ QtAudio::QtAudio(QWidget *parent)
 		100,                         // set hotkey handle
 		MOD_ALT,         // se mods and key
 		'Z');
-
-	
 }
 
 void QtAudio::onPushButton_startRecord() {

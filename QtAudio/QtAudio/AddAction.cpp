@@ -65,8 +65,6 @@ void AddAction::getPathDial() {
 	qfd.setFileMode(QFileDialog::ExistingFile);
 	qfd.setAcceptMode(QFileDialog::AcceptOpen);
 	if (qfd.exec()) {
-		/*QDir path(qfd.selectedFiles()[0]);
-		path.toNativeSeparators(qfd.selectedFiles()[0])*/
 		ui.lineEdit_path->setText(QDir::toNativeSeparators(qfd.selectedFiles()[0]));
 	}
 }
