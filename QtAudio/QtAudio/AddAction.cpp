@@ -5,7 +5,6 @@ AddAction::AddAction(QWidget *parent)
 {
 	ui.setupUi(this);
 	this->setCentralWidget(ui.gridLayoutWidget);
-	ui.button_add->setDisabled(true);
 }
 
 void AddAction::updateList(std::vector<VoiceAction>* commands) {
@@ -13,7 +12,6 @@ void AddAction::updateList(std::vector<VoiceAction>* commands) {
 	for (auto i : *commands) {
 		commandList << i.getName().data();
 	}
-	commandList << "" << "New...";
 	model = new QStringListModel(commandList);
 	ui.listView->setModel(model);
 	this->commands = commands;
@@ -25,13 +23,7 @@ void AddAction::chooseCom(QModelIndex mInd) {
 	ui.lineEdit_name->clear();
 
 	for (auto i : *commands) {
-		if (mInd.data().toString() == "New...") {
-			ui.button_add->setEnabled(true);
-			ui.button_add->setText("Add action");
-		}
 		if (QString::fromStdString(i.getName()) == mInd.data().toString()) {
-			ui.button_add->setEnabled(true);
-			ui.button_add->setText("Edit action");
 			ui.lineEdit_name->setText(i.getName().data());
 			ui.lineEdit_path->setText(i.getPath().data());
 			for (auto j : i.getWords()) {
@@ -58,6 +50,65 @@ void AddAction::addEditAction() {
 		}
 	}
 	updateList(commands);
+}
+
+void AddAction::addAction_onClickButton() {
+	if (ui.lineEdit_name->text().toStdString() == "") {
+		QMessageBox q(this);
+		q.setWindowTitle("Add command error");
+		q.setText("Please set name");
+		q.exec();
+		return;
+	}
+	for (auto i : *commands) {
+		if (i.getName() == ui.lineEdit_name->text().toStdString()) {
+			QMessageBox q(this);
+			q.setText("Command already exist! Change name and try again.");
+			q.exec();
+			return;
+		}
+	}
+	VoiceAction va(ui.lineEdit_name->text().toStdString(), ui.lineEdit_path->text().toStdString(),
+		ui.lineEdit_command->text().toStdString());
+	commands->push_back(va);
+	updateList(commands);
+}
+
+void AddAction::deleteAction_onClickButton() {
+	for (auto i = (*commands).begin(); i != (*commands).end(); ++i) {
+		if (i->getName() == ui.listView->currentIndex().data().toString().toStdString()) {
+			(*commands).erase(i);
+			break;
+		}
+	}
+
+	updateList(commands);
+}
+
+void AddAction::editAction_onClickButton() {
+	if (ui.lineEdit_name->text().toStdString() == "") {
+		QMessageBox q(this);
+		q.setWindowTitle("Edit command error");
+		q.setText("Please set name");
+		q.exec();
+		return;
+	}
+	VoiceAction va(ui.lineEdit_name->text().toStdString(), ui.lineEdit_path->text().toStdString(),
+		ui.lineEdit_command->text().toStdString());
+
+	for (auto i = 0; i < commands->size(); ++i) {
+		if ((*commands)[i].getName() != ui.listView->currentIndex().data().toString().toStdString()) {
+			if ((*commands)[i].getName() == va.getName()) {
+				QMessageBox q(this);
+				q.setText("Command already exist! Change name and try again.");
+				q.exec();
+				return;
+			}
+		}
+		else {
+			(*commands)[i] = va;
+		}
+	}
 }
 
 void AddAction::getPathDial() {

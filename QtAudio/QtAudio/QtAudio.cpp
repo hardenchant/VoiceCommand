@@ -74,8 +74,8 @@ void QtAudio::set_audio_config() {
 
 	audioSettings.setCodec("audio/PCM");
 	audioSettings.setQuality(QMultimedia::HighQuality);
-	audioRecorder->setEncodingSettings(audioSettings);
 
+	audioRecorder->setEncodingSettings(audioSettings);
 	audioRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
 
 }
@@ -87,8 +87,6 @@ void QtAudio::setInterfaceAndConnects() {
 	ui.button_stop->hide();
 	ui.button_recognize->hide();
 	ui.label->hide();
-
-	addact_wnd.setWindowModality(Qt::ApplicationModal);
 
 	auto menu_settings = ui.menuBar->addMenu("Settings");
 	auto action_addaction = menu_settings->addAction("Add voice action");

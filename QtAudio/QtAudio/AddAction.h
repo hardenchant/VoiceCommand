@@ -27,4 +27,8 @@ public slots:
 	void chooseCom(QModelIndex);
 	void addEditAction();
 	void getPathDial();
+	void addAction_onClickButton();
+	void deleteAction_onClickButton();
+	void editAction_onClickButton();
+
 };

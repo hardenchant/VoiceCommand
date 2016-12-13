@@ -48,7 +48,7 @@ std::string mr::recognize(const std::string path) {
 		curl_easy_setopt(curl, CURLOPT_READDATA, &fileStream);
 
 		std::stringstream buffer;
-
+			
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &mr::write_response_data);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
 
@@ -61,6 +61,8 @@ std::string mr::recognize(const std::string path) {
 	}
 	return "\n\n";
 }
+
+
 std::vector<std::string> mr::parseRequest(std::string response) {
 	std::vector<std::string> parseVariants;
 	if (response == "\n\n") {
